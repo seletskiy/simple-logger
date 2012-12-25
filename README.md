@@ -10,7 +10,7 @@ Code Example
 application:start(sl),
 sl:open("/path/to/log/file.log"),
 sl:info("hello!"), % you can use debug, info, warn,
-                     error, critical and log methods
+                   % error, critical and log methods
 sl:close(). % it's not necessary at all
 ```
 
