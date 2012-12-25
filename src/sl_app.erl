@@ -13,7 +13,6 @@
 %% ---------------------------------------------------------------------
 %% @doc Starts an application.
 start(_Type, _Args) ->
-    io:format('123'),
 	sl_sup:start_link().
 
 %% @doc Stops an application.
