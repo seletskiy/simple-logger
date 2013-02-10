@@ -159,11 +159,10 @@ get_caller_app() ->
 format(App, Severity, Item, Args) ->
     Opts = sl_worker:get_opts(App),
     Format = proplists:get_value(format, Opts, fun format_default/3),
-    Format(Severity, Item, Args).
+    iolist_to_binary(Format(Severity, Item, Args)).
 
 format_date() ->
-    {Year, Month, Day} = date(),
-    {Hour, Minute, Second} = time(),
+    {{Year, Month, Day}, {Hour, Minute, Second}} = erlang:localtime(),
     {_, _, Microsec} = now(),
     io_lib:format("~2..0B/~2..0B/~2..0B ~2..0B:~2..0B:~2..0B.~3..0B", [
         Day, Month, Year rem 1000,
@@ -171,12 +170,13 @@ format_date() ->
         Microsec div 1000]).
 
 format_default(Severity, Item, Args) ->
-    io_lib:format("[~s] ~11s ~-10s (~-5ts) ~ts~n", [
-        format_date(),
-        pid_to_list(self()), get_caller_mod(),
-        string:to_upper(Severity),
-        io_lib:format(Item, Args)
-    ]).
+    [$[, format_date()
+        , io_lib:format("] ~11s ~-10s (~-5ts) ",
+            [ pid_to_list(self())
+            , get_caller_mod()
+            , string:to_upper(Severity)
+            ])
+        , io_lib:format(Item, Args), $\n].
 
 get_caller_mod() ->
     element(1, lists:nth(4, element(2, element(2, catch erlang:error([]))))).

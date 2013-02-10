@@ -1,6 +1,6 @@
 {application, sl, [
 	{description, "Simple Logger Application"},
 	{vsn, git},
-	{registered, []},
+	{registered, [sl_sup]},
 	{applications, [kernel, stdlib]},
 	{mod, {sl_app, []}}]}.
