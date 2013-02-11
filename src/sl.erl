@@ -170,13 +170,12 @@ format_date() ->
         Microsec div 1000]).
 
 format_default(Severity, Item, Args) ->
-    [$[, format_date()
-        , io_lib:format("] ~11s ~-10s (~-5ts) ",
-            [ pid_to_list(self())
-            , get_caller_mod()
-            , string:to_upper(Severity)
-            ])
-        , io_lib:format(Item, Args), $\n].
+    [$[, format_date(), $], " ",              % date
+        io_lib:format("~11s ~-10s (~-5ts)", [ % pid, mod, severity
+            pid_to_list(self()),
+            get_caller_mod(),
+            string:to_upper(Severity)]), " ",
+        io_lib:format(Item, Args), $\n].      % message
 
 get_caller_mod() ->
     element(1, lists:nth(4, element(2, element(2, catch erlang:error([]))))).
