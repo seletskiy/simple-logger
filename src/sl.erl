@@ -178,4 +178,4 @@ format_default(Severity, Item, Args) ->
         io_lib:format(Item, Args), $\n].      % message
 
 get_caller_mod() ->
-    element(1, lists:nth(4, element(2, element(2, catch erlang:error([]))))).
+    element(1, lists:nth(5, element(2, element(2, catch erlang:error([]))))).
