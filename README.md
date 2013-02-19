@@ -8,9 +8,10 @@ Code Example
 
 ```erlang
 application:start(sl),
-sl:open("/path/to/log/file.log"),
+sl:open("/path/to/log/file.log"), % or `sl:install(log)', if you want to pass 
+                                  % path to log file through env variable `log'.
 sl:info("hello!"), % you can use debug, info, warn,
-                   % error, critical and log methods
+                   % error, crit and log methods
 sl:close(). % it's not necessary at all
 ```
 
