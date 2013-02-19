@@ -25,12 +25,16 @@ init(_Args) ->
             [sl_worker]}
     ]}}.
 
+-spec spawn_worker(atom(), string(), list(atom() | tuple())) ->
+    {ok, pid()} | {error, term()}.
 spawn_worker(App, Log, Opts) ->
     supervisor:start_child(?MODULE, [App, Log, Opts]).
 
+-spec kill_worker(atom()) -> term().
 kill_worker(App) ->
     supervisor:terminate_child(?MODULE,
         whereis(sl_worker:get_worker_name(App))).
 
+-spec call_worker(atom(), term()) -> term().
 call_worker(App, Msg) ->
     gen_server:call(sl_worker:get_worker_name(App), Msg).

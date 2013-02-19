@@ -1,5 +1,6 @@
 %% @author Stanislav Seletskiy <s.seletskiy@gmail.com>
-%% @doc General API and worker that handle log requests.
+%% @doc Worker than handle log requests.
+%% @private
 -module(sl_worker).
 -created('Date: 25/12/2012').
 -created_by('Stanislav Seletskiy <s.seletskiy@gmail.com>').
@@ -29,9 +30,11 @@ start_link(App, LogFile, Opts) ->
     Name = get_worker_name(App),
     gen_server:start_link({local, Name}, ?MODULE, [App, LogFile, Opts], []).
 
+-spec get_worker_name(atom()) -> atom().
 get_worker_name(App) ->
     list_to_atom("sl_worker_" ++ atom_to_list(App)).
 
+-spec get_opts(atom()) -> list(atom() | tuple()).
 get_opts(App) ->
     case application:get_env(App, sl_opts) of
         {ok, Opts} -> Opts;
