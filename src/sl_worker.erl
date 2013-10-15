@@ -71,8 +71,7 @@ handle_info(_Info, State) ->
     {noreply, State}.
 
 %% @hidden
-terminate(_Reason, {LogId, App}) ->
-    application:unset_env(App, sl_opts),
+terminate(_Reason, {LogId, _App}) ->
     disk_log:close(LogId).
 
 %% @hidden
